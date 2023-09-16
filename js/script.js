@@ -111,7 +111,7 @@ const   modalTrigger = document.querySelectorAll('[data-modal]'),
         modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
         clearInterval(modalTimer);
-    };
+    }
 
     function closeModal() {
         modal.classList.add('hide');
@@ -162,7 +162,7 @@ class MenuCard {
     }
     render() {
         const menuItem = document.createElement('div');
-
+        
         menuItem.innerHTML = `
         <div class="menu__item">
             <img src=${this.img} alt=${this.alt}>
@@ -180,6 +180,7 @@ class MenuCard {
     }
 }
 
+
 new MenuCard(
     "img/tabs/vegy.jpg",
     "vegy",
@@ -188,4 +189,23 @@ new MenuCard(
    10,
    '.menu__field .container'
 ).render();
+
+new MenuCard(
+    "img/tabs/elite.jpg",
+    "elite",
+    'Меню "Премиум"',
+   'Меню "Премиум" - мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+   16,
+   '.menu__field .container'
+).render();
+
+new MenuCard(
+    "img/tabs/post.jpg",
+    "post",
+    'Меню "Постное"',
+   'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+   13,
+   '.menu__field .container'
+).render();
+
 });
