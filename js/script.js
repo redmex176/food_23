@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 window.addEventListener('DOMContentLoaded', () => {
     const tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items'),
@@ -99,7 +100,6 @@ setTimeRemaining();
 
 const   modalTrigger = document.querySelectorAll('[data-modal]'),
         modal = document.querySelector('.modal'),
-        modalCloseBtn = document.querySelector('[data-close]'),
         modalTimer = setTimeout(openModal, 300000);
 
     modalTrigger.forEach(btn => {
@@ -119,10 +119,8 @@ const   modalTrigger = document.querySelectorAll('[data-modal]'),
         document.body.style.overflow = '';
     }
     
-    modalCloseBtn.addEventListener('click', closeModal);
-
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal || e.target.getAttribute('data-close') == '') {
             closeModal();
         }
     });
@@ -142,7 +140,7 @@ const   modalTrigger = document.querySelectorAll('[data-modal]'),
 
     window.addEventListener('scroll', showModalByScroll); 
 
-    //   Cards---------------------------------------------------
+ //   Cards---------------------------------------------------
 
 
 class MenuCard {
@@ -214,5 +212,87 @@ new MenuCard(
    '.menu__field .container',
    "menu__item"
 ).render();
+
+//   Forms---------------------------------------------------
+
+const forms = document.querySelectorAll('form');
+
+const message = {
+    loading: 'img/spinner/spinner.svg',
+    success: 'Спасибо! Скоро мы с вами свяжемся!',
+    error: 'Ошибка'
+}
+
+forms.forEach(item => {
+    postData(item);
+});
+
+function postData(form) {
+    form.addEventListener('submit', (e)=> {
+        e.preventDefault();
+        const statusMessage = document.createElement('img');
+        statusMessage.style.cssText = `
+            display: block;
+            margin: 0 auto;
+        `;
+        statusMessage.src = message.loading;
+
+        form.append(statusMessage);
+
+        const request = new XMLHttpRequest();
+
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-type', 'application/json');
+        const formData = new FormData(form);
+
+        const obj = {};
+
+        formData.forEach(function (value, key) {
+            obj[key] = value;
+        })
+
+        const json = JSON.stringify(obj);
+
+        request.send(json);
+
+        request.addEventListener('load', ()=> {
+            if(request.status === 200) {
+                console.log(request.response);
+                form.reset();
+                showThanksModal(message.success);
+                statusMessage.remove();
+            } else {
+                showThanksModal(message.error);
+            }
+        });
+    });
+}
+
+function showThanksModal(mess) {
+    const prevModal = document.querySelector('.modal__dialog');
+
+    prevModal.classList.add('hide');
+    openModal();
+
+    const messModal = document.createElement('div');
+    messModal.classList.add('modal__dialog');
+
+    messModal.innerHTML = `
+    <div class="modal__content">
+        <form action="#">
+            <div data-close class="modal__close">×</div>
+            <div class="modal__title">${mess}</div>
+        </form>
+    </div>
+    `;
+
+    document.querySelector('.modal').append(messModal);
+
+    setTimeout(() => {
+        messModal.remove();
+        prevModal.classList.remove('hide');
+        closeModal();
+    }, 2000);
+}
 
 });
