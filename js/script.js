@@ -286,4 +286,56 @@ function showThanksModal(mess) {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
+
+
+//   Slider---------------------------------------------------
+    
+const nextSlide = document.querySelector('.offer__slider-next'),
+      prevSlide = document.querySelector('.offer__slider-prev'),
+      slides = document.querySelectorAll('.offer__slide'),
+      total = document.querySelector('#total'),
+      current = document.querySelector('#current');
+let slideIndex = 1;
+
+if(slides.length < 10) {
+    total.textContent = `0${slides.length}`;
+} else {
+    total.textContent = slides.length;
+}
+
+showSlide(slideIndex);
+
+prevSlide.addEventListener('click', ()=> {
+    plusSlides(-1);
+});
+
+nextSlide.addEventListener('click', ()=> {
+    plusSlides(1);
+});
+
+function showSlide(n) {
+   if (n > slides.length) {
+       slideIndex = 1;
+   }
+
+   if (n < 1) {
+       slideIndex = slides.length;
+   }
+
+   slides.forEach(slide => slide.classList.add('hide'));
+   slides[slideIndex - 1].classList.remove('hide');
+
+   if(slides.length < 10) {
+    current.textContent = `0${slideIndex}`;
+} else {
+    current.textContent = slideIndex;
+}
+}
+
+
+function plusSlides(n) {
+    showSlide(slideIndex += n);
+}
+
+
 });
