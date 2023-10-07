@@ -5,7 +5,9 @@
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-plugin-react": "^7.33.2",
-    "json-server": "^0.17.3"
+    "json-server": "^0.17.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -198,5 +200,6 @@
     "url": "https://github.com/redmex176/food_23/issues"
   },
   "homepage": "https://github.com/redmex176/food_23#readme",
+  "keywords": [],
   "description": ""
 }
